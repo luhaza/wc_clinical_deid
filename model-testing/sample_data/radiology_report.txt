@@ -1,0 +1,19 @@
+RADIOLOGY REPORT
+
+Patient:   H. J.  Carter
+DOB : 12.30.58
+MRN: 556901
+
+EXAM DATE : 2024-02-17
+COMPARISON: Feb 5 2024
+
+FINDINGS:
+No acute intracranial hemorrhage.
+Chronic small vessel ischemic changes noted.
+
+IMPRESSION:
+Stable exam. No acute findings.
+
+ORDERING PROVIDER:
+S. Patel, MD
+Report faxed to clinic at  847 555 4021

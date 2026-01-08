@@ -1,0 +1,30 @@
+PATIENT NAME:   Jhon   Smth
+DOB:  3-5-81
+MRN: 00988123
+
+CHIEF COMPLAINT:
+Chest tightness and shortness of breath x ~2 weeks.
+
+HISTORY OF PRESENT ILLNESS:
+Pt is a 43 y/o male who presents for evaluation of intermittent chest
+pressure. He reports symptoms began sometime late Feb 2024 while lifting
+heavy boxes at work (McArthuer Shipping Co). Pain described as dull, non-
+radiating. Denies syncope. Occ mild nausea.
+
+PAST MEDICAL HISTORY:
+HTN, hyperlipidemia. No prior MI.
+
+SOCIAL HISTORY:
+Lives with wife and two children at  4127 W. Elm st Apt #3B,
+Springfeld, IL  62704. Works full time. Former smoker, quit 2015.
+
+MEDICATIONS:
+Lisinopril 10mg daily.
+Atorvastatin 20mg qhs.
+
+ASSESSMENT/PLAN:
+Likely musculoskeletal vs GERD. EKG normal today.
+Follow up in 2 weeks or sooner if symptoms worsen.
+
+Emergency contact on file:
+Marry Smith (spouse)  cell 217.555.0198

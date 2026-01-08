@@ -1,0 +1,20 @@
+LAB RESULT NOTICE
+
+Patient:  Abdul   Rahmaan
+DOB:  02/11/1973
+Specimen ID: L-998211
+
+COLLECTION DATE:
+2024.03.21
+RESULT DATE:
+2024.03.22
+
+RESULTS:
+CBC within normal limits.
+
+ORDERING LOCATION:
+South Loop Immediate Care
+Phone: 312.555.7766
+
+NOTES:
+Pt notified via patient portal.

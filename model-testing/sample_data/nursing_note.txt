@@ -1,0 +1,22 @@
+CLINIC INTAKE FORM
+
+Pt Name::  MArgret O'Neal
+DOB::  8 / 9 / 1975
+
+ADDRESS:
+  91 North     Lake Shore Dr
+  Chicago IL 60611
+
+CONTACT:
+Email: m.oneal75 @ gmail.com
+Phone: 312-555-3009
+
+NURSING NOTE:
+Pt arrived 20 min early. Vitals stable.
+States she works night shifts as RN and prefers AM appts.
+
+ALLERGIES:
+NKDA
+
+PRIMARY CARE PROVIDER:
+Dr. Steven Ross
