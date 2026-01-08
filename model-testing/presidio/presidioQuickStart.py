@@ -1,6 +1,6 @@
 from presidio_analyzer import AnalyzerEngine
 from presidio_anonymizer import AnonymizerEngine
-text="My name is Ian Kim and my phone number is 212-555-5555"
+text=""
 
 # Set up the engine, loads the NLP module (spaCy model by default) 
 # and other PII recognizers
@@ -8,7 +8,7 @@ analyzer = AnalyzerEngine()
 
 # Call analyzer to get results
 results = analyzer.analyze(text=text,
-                           entities=["PERSON", "PHONE_NUMBER"],
+                           entities=["PERSON", "PHONE_NUMBER", "DATE_TIME"],
                            language='en')
 
 print(text)
