@@ -1,12 +1,9 @@
-# obfuscator/filters/clinical_filter.py
-
 import re
 from typing import List
 from presidio_analyzer import RecognizerResult
 
 
 class ClinicalDataFilter:
-    # Relative time keywords that should be preserved
     RELATIVE_TIMES = {
         'today', 'yesterday', 'tomorrow', 'tonight',
         'last week', 'last month', 'last year', 'last night',
@@ -14,12 +11,21 @@ class ClinicalDataFilter:
         'next week', 'next month'
     }
     
-    # Duration patterns that should be preserved
     DURATION_PATTERNS = [
-        r'^\d+\s+(week|day|month|year)s?$',  # "2 weeks", "3 days"
-        r'^x\s*~?\s*\d+\s+(week|day|month)s?$',  # "x ~2 weeks"
-        r'^(week|day|month|year)s?$',  # Just "weeks", "days"
+        r'^\d+\s+(week|day|month|year)s?$', 
+        r'^x\s*~?\s*\d+\s+(week|day|month)s?$',  
+        r'^(week|day|month|year)s?$', 
+        r'^breath x ~\d+$',  
     ]
+    
+    MEDICAL_TERMS = {
+        'ekg', 'ecg', 'mri', 'ct', 'xray', 'lab', 'labs',
+        'lisinopril', 'atorvastatin', 'metformin', 'aspirin', 'ibuprofen',
+        'tylenol', 'advil', 'prednisone', 'amoxicillin', 'azithromycin',
+        'htn', 'dm', 'copd', 'cad', 'chf', 'gerd', 'mi', 'dvt', 'pe',
+        'occ', 'prn', 'qhs', 'bid', 'tid', 'qid',
+        'patient', 'complaint', 'history', 'assessment', 'plan'
+    }
     
     @staticmethod
     def filter_results(text: str, results: List[RecognizerResult]) -> List[RecognizerResult]:
@@ -71,7 +77,6 @@ class ClinicalDataFilter:
                 if re.search(r'\d+\s+(week|day|month|year)s?', detected_text, re.IGNORECASE):
                     return True
             
-            # NEW: Preserve dates in clinical history context
             context_before_expanded = full_text[max(0, result.start - 50):result.start].lower()
             
             # Preserve dates after these medical history keywords
@@ -83,7 +88,6 @@ class ClinicalDataFilter:
             if any(keyword in context_before_expanded for keyword in history_keywords):
                 return True
             
-            # NEW: Preserve standalone years in history context
             # "quit 2015", "since 2010", etc.
             if re.match(r'^\d{4}$', detected_text):
                 if any(keyword in context_before_expanded for keyword in ['quit', 'since', 'started', 'began', 'stopped']):
@@ -99,6 +103,18 @@ class ClinicalDataFilter:
     
     @staticmethod
     def _is_false_positive(detected_text: str, entity_type: str) -> bool:
+        """Check if detected entity is a false positive"""
+        
+        text_lower = detected_text.lower().strip()
+        
+        # Check if it's a medical term
+        if text_lower in ClinicalDataFilter.MEDICAL_TERMS:
+            return True
+        
+        # Single letters or very short strings that are likely abbreviations
+        if len(text_lower) <= 2 and entity_type in ['PERSON', 'ORGANIZATION', 'LOCATION']:
+            return True
+        
         # Single word "weeks", "days", etc. should not be DATE_TIME
         if entity_type == "DATE_TIME":
             if re.match(r'^(week|day|month|year)s?$', detected_text, re.IGNORECASE):
@@ -107,6 +123,31 @@ class ClinicalDataFilter:
             # 5-digit numbers that look like ZIP codes
             if re.match(r'^\d{5}$', detected_text):
                 return True
+            
+            # Numbers without context (likely part of MRN or other ID)
+            if re.match(r'^\d+$', detected_text) and len(detected_text) > 4:
+                return True
+        
+        # Common false positive org patterns
+        if entity_type == 'ORGANIZATION':
+            # State abbreviations
+            if re.match(r'^[A-Z]{2}$', detected_text):
+                return True
+            # Duration patterns like "breath x ~2"
+            if re.search(r'x\s*~?\s*\d+', detected_text):
+                return True
+        
+        # Single capitalized words that are likely NOT people
+        if entity_type == 'PERSON':
+            # Single word names that are likely not people
+            if len(detected_text.split()) == 1:
+                # Check if it's a common place or medical term
+                if text_lower in ClinicalDataFilter.MEDICAL_TERMS:
+                    return True
+                # Check if it looks like a medication (ends in common suffixes)
+                med_suffixes = ['pril', 'statin', 'olol', 'pine', 'cillin', 'mycin', 'oxacin']
+                if any(text_lower.endswith(suffix) for suffix in med_suffixes):
+                    return True
         
         return False
     
