@@ -1,6 +1,6 @@
 from presidio_analyzer import PatternRecognizer, Pattern, RecognizerRegistry
-from configurations import BERT_DEID_CONFIGURATION, STANFORD_COFIGURATION
-from transformers_recognizer import TransformersRecognizer
+# from configurations import BERT_DEID_CONFIGURATION, STANFORD_COFIGURATION
+# from transformers_recognizer import TransformersRecognizer
 from presidio_analyzer import PatternRecognizer, Pattern
 from typing import List
 
