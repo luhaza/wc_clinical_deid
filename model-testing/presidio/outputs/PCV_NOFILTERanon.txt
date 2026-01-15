@@ -1,20 +1,21 @@
-PATIENT NAME:   Darren Roberts:  06-18-86
-MRN: 61849593
+PATIENT NAME:   Asher
+DOB:  07-06-8181
+MRN: 93824967
 
 CHIEF COMPLAINT:
-Chest tightness and shortness of breath x ~2 2000-01-18.
+Chest tightness and shortness of breath x ~2 weeks.
 
 HISTORY OF PRESENT ILLNESS:
 Pt is a 43 y/o male who presents for evaluation of intermittent chest
-pressure. He reports symptoms began sometime 2010-11-21 while lifting
-heavy boxes Munoz-Roman. Pain described as dull, non-
+pressure. He reports symptoms began sometime late 07-07-37 while lifting
+heavy boxes at work (Robinson and Sons). Pain described as dull, non-
 radiating. Denies syncope. Occ mild nausea.
 
 PAST MEDICAL HISTORY:
 HTN, hyperlipidemia. No prior MI.
 
 SOCIAL HISTORY:
-Lives with wife and two children at  79402 Peterson Drives Forge Apt #70, Curtisfurt, CT 4755306-01. Works full time. Former smoker, quit 1992-02-21.
+Lives with wife and two children at  Allenhavenaileytown, WA 60674time. Former smoker, quit 12-17-07.
 
 MEDICATIONS:
 Lisinopril 10mg daily.
@@ -25,4 +26,4 @@ Likely musculoskeletal vs GERD. EKG normal today.
 Follow up in 2 weeks or sooner if symptoms worsen.
 
 Emergency contact on file:
-Jonathan Johnson (spouse)  cell +1-210-343-3218x1960
+Baker (spouse)  cell 280.227.4165

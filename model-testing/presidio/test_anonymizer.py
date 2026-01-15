@@ -1,9 +1,11 @@
 import sys
+import os
 from pathlib import Path
 from presidio_analyzer import AnalyzerEngine
 from context_anonymizer import ContextAwareAnonymizer
 from medical_recognizer import MedicalRecognizers
 from clinical_filter import ClinicalDataFilter
+from modelConfig import build_analyzer 
 
 # Get file paths from command line
 if len(sys.argv) < 3:
@@ -18,14 +20,14 @@ print(f"Reading: {input_file}")
 with open(input_file, 'r') as f:
     text = f.read()
 
-# Setup analyzer WITHOUT NLP engine (same as test_recognizer)
 print("Setting up analyzer...")
-analyzer = AnalyzerEngine()
+analyzer = build_analyzer()[0]
+# analyzer = AnalyzerEngine()
 
 # Add medical recognizers
-print("Adding medical recognizers...")
-for recognizer in MedicalRecognizers.get_all_recognizers():
-    analyzer.registry.add_recognizer(recognizer)
+# print("Adding medical recognizers...")
+# for recognizer in MedicalRecognizers.get_all_recognizers():
+#     analyzer.registry.add_recognizer(recognizer)
 
 # Analyze
 print("Analyzing text...")
@@ -40,7 +42,7 @@ print(f"  After filtering: {len(results)} entities")
 # Anonymize
 print("Anonymizing...")
 anonymizer = ContextAwareAnonymizer()
-anonymized = anonymizer.anonymize(text, results)
+anonymized = anonymizer.anonymize(text, raw_results)
 
 # Write output
 output_path = Path(output_file)

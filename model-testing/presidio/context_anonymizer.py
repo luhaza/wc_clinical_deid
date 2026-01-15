@@ -16,7 +16,10 @@ class DemographicContext:
         self.mappings: Dict[str, Dict[str, Any]] = {}
         self.faker = Faker()
         self.names = [
-            'Noah', 'Ezra', 'Dylan', 'Carter', 'Logan', 'Cameron', 'Jordan'
+            'Noah', 'Ezra', 'Dylan', 'Carter', 'Logan', 'Cameron', 'Jordan',
+            'Rowan', 'Micah', 'August', 'Parker', 'Riley', 'Avery', 'Quinn',
+            'Kai', 'Blake', 'Asher', 'Robin', 'Rory', 'Spencer', 'Tatum', 
+            'Jessie', 'Jackie', 'Baker', 'Tommie', 'Sammy', 'Jamie', 'Noel'
         ]
     
     def get_or_create_identity(self, original_value: str, entity_type: str, **context) -> Dict[str, Any]:

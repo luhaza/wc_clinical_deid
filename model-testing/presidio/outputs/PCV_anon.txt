@@ -1,6 +1,6 @@
-PATIENT NAME:   Logan
-DOB:  01-02-82
-MRN: 86746219
+PATIENT NAME:   Micah
+DOB:  11-15-81
+MRN: 43075707
 
 CHIEF COMPLAINT:
 Chest tightness and shortness of breath x ~2 weeks.
@@ -8,14 +8,14 @@ Chest tightness and shortness of breath x ~2 weeks.
 HISTORY OF PRESENT ILLNESS:
 Pt is a 43 y/o male who presents for evaluation of intermittent chest
 pressure. He reports symptoms began sometime late Feb 2024 while lifting
-heavy boxes at work (Mahoney and Sons). Pain described as dull, non-
+heavy boxes at work (Stark-Adams). Pain described as dull, non-
 radiating. Denies syncope. Occ mild nausea.
 
 PAST MEDICAL HISTORY:
 HTN, hyperlipidemia. No prior MI.
 
 SOCIAL HISTORY:
-Lives with wife and two children at  19854 Meyer Court, Theresaport, OK 61598. Works full time. Former smoker, quit 2015.
+Lives with wife and two children at  966 Sexton Stream, Jillianfurt, VT 32306. Works full time. Former smoker, quit 2015.
 
 MEDICATIONS:
 Lisinopril 10mg daily.
@@ -26,4 +26,4 @@ Likely musculoskeletal vs GERD. EKG normal today.
 Follow up in 2 weeks or sooner if symptoms worsen.
 
 Emergency contact on file:
-Jordan (spouse)  cell 754.788.5852
+Jamie (spouse)  cell 554.757.6776
