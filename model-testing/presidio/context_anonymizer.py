@@ -15,27 +15,9 @@ class DemographicContext:
     def __init__(self):
         self.mappings: Dict[str, Dict[str, Any]] = {}
         self.faker = Faker()
-        
-        self.common_male_names = {
-            'john', 'james', 'robert', 'michael', 'william', 'david', 'richard',
-            'joseph', 'thomas', 'charles', 'christopher', 'daniel', 'matthew',
-            'anthony', 'donald', 'mark', 'paul', 'steven', 'andrew', 'kenneth',
-            'carlos', 'jose', 'juan', 'luis', 'miguel', 'diego', 'jorge',
-            'chen', 'wei', 'wang', 'li', 'ming'
-        }
-        
-        self.common_female_names = {
-            'mary', 'patricia', 'jennifer', 'linda', 'barbara', 'elizabeth',
-            'susan', 'jessica', 'sarah', 'karen', 'nancy', 'betty', 'margaret',
-            'sandra', 'ashley', 'dorothy', 'kimberly', 'emily', 'donna', 'michelle',
-            'maria', 'ana', 'rosa', 'carmen', 'isabel', 'sofia', 'gabriela',
-            'lisa', 'laura', 'angela'
-        }
-        
-        self.gender_titles = {
-            'male': ['Mr.', 'Dr.', 'Prof.'],
-            'female': ['Ms.', 'Mrs.', 'Dr.', 'Prof.']
-        }
+        self.names = [
+            'Noah', 'Ezra', 'Dylan', 'Carter', 'Logan', 'Cameron', 'Jordan'
+        ]
     
     def get_or_create_identity(self, original_value: str, entity_type: str, **context) -> Dict[str, Any]:
         """Get existing mapping or create new coherent identity"""
@@ -52,72 +34,16 @@ class DemographicContext:
         """Generate consistent key for value"""
         return hashlib.sha256(value.encode()).hexdigest()
     
-    def _infer_gender(self, name: str) -> str:
-        # Extract first name
-        name_parts = name.strip().split()
-        if not name_parts:
-            return 'unknown'
-        
-        first_name = name_parts[0].lower().rstrip('.')
-        
-        # Handle common typos and variations
-        if first_name in ['jhon', 'jon']:
-            first_name = 'john'
-        elif first_name in ['mike', 'mick']:
-            first_name = 'michael'
-        elif first_name in ['bob', 'bobby']:
-            first_name = 'robert'
-        elif first_name in ['sue', 'susie']:
-            first_name = 'susan'
-        elif first_name in ['liz', 'beth']:
-            first_name = 'elizabeth'
-        elif first_name in ['jen', 'jenny']:
-            first_name = 'jennifer'
-        
-        # Check against known names
-        if first_name in self.common_male_names:
-            return 'male'
-        elif first_name in self.common_female_names:
-            return 'female'
-        
-        # Check for common title indicators
-        if any(title in name for title in ['Mr.', 'Mr', 'Sir']):
-            return 'male'
-        elif any(title in name for title in ['Ms.', 'Mrs.', 'Miss', 'Madam']):
-            return 'female'
-        
-        return 'unknown'
     
     def _create_coherent_identity(self, original_value: str, entity_type: str, **context) -> Dict[str, Any]:
-        # Infer gender from context or original value
-        gender = context.get('gender')
-        if not gender and entity_type == 'PERSON':
-            gender = self._infer_gender(original_value)
-        elif not gender:
-            gender = 'unknown'
-        
         identity = {
             'original': original_value,
-            'gender': gender,
             'entity_type': entity_type,
         }
         
         # Generate contextually appropriate replacements based on entity type
         if entity_type == 'PERSON':
-            # THIS IS THE KEY DIFFERENCE: Generate names that match the inferred gender
-            if gender == 'male':
-                identity['fake_name'] = self.faker.name_male()
-                identity['fake_first'] = identity['fake_name'].split()[0]
-                identity['fake_last'] = identity['fake_name'].split()[-1]
-            elif gender == 'female':
-                identity['fake_name'] = self.faker.name_female()
-                identity['fake_first'] = identity['fake_name'].split()[0]
-                identity['fake_last'] = identity['fake_name'].split()[-1]
-            else:
-                # Unknown gender - use neutral name generation
-                identity['fake_name'] = self.faker.name()
-                identity['fake_first'] = identity['fake_name'].split()[0]
-                identity['fake_last'] = identity['fake_name'].split()[-1]
+            identity['fake_name'] = self.names[random.randrange(len(self.names))]
         
         if entity_type == 'LOCATION':
             # Generate city (no gender correlation for locations)
@@ -157,7 +83,6 @@ class ContextAwareAnonymizer:
             replacement = None
             
             if entity_type == 'PERSON':
-                # Get gender-coherent replacement
                 identity = self.context.get_or_create_identity(entity_text, 'PERSON')
                 replacement = identity['fake_name']
                 
