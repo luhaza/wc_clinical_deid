@@ -1,6 +1,6 @@
-PATIENT NAME:   Shane Cobb
-DOB:  02-23-82
-MRN: 06348313
+PATIENT NAME:   Logan
+DOB:  01-02-82
+MRN: 86746219
 
 CHIEF COMPLAINT:
 Chest tightness and shortness of breath x ~2 weeks.
@@ -8,14 +8,14 @@ Chest tightness and shortness of breath x ~2 weeks.
 HISTORY OF PRESENT ILLNESS:
 Pt is a 43 y/o male who presents for evaluation of intermittent chest
 pressure. He reports symptoms began sometime late Feb 2024 while lifting
-heavy boxes at work (Holder, Evans and Herrera). Pain described as dull, non-
+heavy boxes at work (Mahoney and Sons). Pain described as dull, non-
 radiating. Denies syncope. Occ mild nausea.
 
 PAST MEDICAL HISTORY:
 HTN, hyperlipidemia. No prior MI.
 
 SOCIAL HISTORY:
-Lives with wife and two children at  88416 Miller Cliff, Owenstown, LA 30132. Works full time. Former smoker, quit 2015.
+Lives with wife and two children at  19854 Meyer Court, Theresaport, OK 61598. Works full time. Former smoker, quit 2015.
 
 MEDICATIONS:
 Lisinopril 10mg daily.
@@ -26,4 +26,4 @@ Likely musculoskeletal vs GERD. EKG normal today.
 Follow up in 2 weeks or sooner if symptoms worsen.
 
 Emergency contact on file:
-Stephen Ray (spouse)  cell 872.763.9105
+Jordan (spouse)  cell 754.788.5852
