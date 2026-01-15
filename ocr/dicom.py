@@ -9,7 +9,7 @@ output_directory = "dicom_output"
 
 def main():
     if len(sys.argv) < 2:
-        print("check arguments: python run_dicom.py <dicom_file>")
+        print("check arguments: python dicom.py <dicom_file>")
         sys.exit(1)
 
     input_path = sys.argv[1]
@@ -23,6 +23,31 @@ def main():
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
+
+    #testing dicom data modifcation using pydicom
+    # dicom tags tend to be consistent, a number of tags containing PHI
+    # need to be modified. 
+    #print(ds) -- > used to print the elements
+    element = ds['PatientName']
+    element.value = '(Changed) Test Name'
+
+    element2 = ds[0x0010, 0x0040]
+    element2 = '(changed) F'
+
+    revised_path = os.path.join(output_directory, f"{base_name}_revised.dcm")
+    ds.save_as(revised_path)
+
+    print(f"Saved to: {revised_path}")
+    ds2 = pydicom.dcmread(revised_path)
+    print("changed value:")
+    print(ds['PatientName'].value)
+    
+    # Notes for revised dicom output:
+    # identify elements to redact/obfuscate (remove private elements)
+    # modify and rewrite to new output file
+    # need to remain a whitelist/blacklist of elements/keywords to modify
+
+    sys.exit(0)
 
     # save dicom metadata to txt
     metadata_text = str(ds)
