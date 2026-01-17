@@ -1,18 +1,8 @@
-from Levenshtein import distance
 from rapidfuzz import fuzz, process
 from pprint import pprint
 import itertools
 
-strings = ["Jenny Lee", "Jenniferr   K.  Lee", "Jennifer Lee", "Jenny", "John Lee", "John Smith", "Jennifer", "Jen", "John", "Jennifer Lee MD", "Johnathan", "Luke", "Jennifer Smith"]
-strings2 = ["Luke Rostan", "Luke Zanuck", "Luke Tichi", "Luke Harrison Zanuck"]
-strings = [s.lower() for s in strings]
-strings_split = [s.split() for s in strings]
-# smallest_lvl = [s for s in strings_split if len(s) == min(len(s2) for s2 in strings_split)]
-smallest_lvl = [s for s in strings_split if len(s) == min(len(s2) for s2 in strings_split)]
-print(smallest_lvl)
-# print(strings_split)
-
-def get_similarity_list(strings, score_cutoff=0):
+def _get_similarity_list(strings, score_cutoff=0):
     results = {}
     for str1 in strings:
         for str2 in strings:
@@ -22,89 +12,52 @@ def get_similarity_list(strings, score_cutoff=0):
 
     return results
 
-# pprint(sorted(results.items(), key=lambda x: x[1], reverse=True))
-
-buckets = {}
-num_buckets = 0
-
-def create_buckets(strings):
-    buckets = {}
-    placed = set()
-    num_buckets = 1
+def group_names(entities: list[str], score_cutoff=60) -> list[set]:
+    """ Groups similar named entities together using fuzzy matching.
+    Params:
+    entities: list of named entity strings
     
-    smallest_lvl = [s for s in strings if len(s) == min(len(s2) for s2 in strings)]
-    list_1d = list(itertools.chain.from_iterable(smallest_lvl))
-    small_results = get_similarity_list(list_1d, score_cutoff=75)
-    sorted_results = dict(sorted(small_results.items(), key=lambda x: x[1], reverse=True))
-    for result in sorted_results:
-        str1, str2 = result
-        score = sorted_results[result]
-        if score > 0:
-            bucket_found = False
-            for _, bucket in buckets.items():
-                if str1 in bucket or str2 in bucket:
-                    bucket.add(str1)
-                    bucket.add(str2)
-                    placed.add(str1)
-                    placed.add(str2)
-                    bucket_found = True
-                    break
-            if not bucket_found:
-                buckets[num_buckets] = set([str1, str2])
-                placed.add(str1)
-                placed.add(str2)
-                num_buckets += 1
-        else:
-            if str1 not in placed:
-                buckets[num_buckets] = set([str1])
-                placed.add(str1)
-                num_buckets += 1
-            if str2 not in placed:
-                buckets[num_buckets] = set([str2])
-                placed.add(str2)
-                num_buckets += 1
+    Returns:
+    buckets: list of sets, each set containing similar named entities
+    """
+    buckets = []
     
-    return buckets, placed
+    names = [t.replace(" ", "").lower() for t in entities]
+    name_to_entity = dict(zip(names, entities))
 
-def fill_buckets(buckets, placed, strings):
-    # Sort buckets by ID to ensure order of reps matches bucket IDs 0..N behavior if needed
-    # And sort the set content to pick a deterministic representative (e.g. longest or first alphabetical)
-    bucket_reps = [sorted(list(buckets[k]))[0] for k in sorted(buckets.keys())]
-    num_buckets = len(bucket_reps)
-    print(bucket_reps)
+    sim_list = _get_similarity_list(names, score_cutoff=score_cutoff)
+    matches = [m[0] for m in list(sorted(sim_list.items(), key=lambda x: x[1], reverse=True)) if m[1] > 0]
 
-    for str in strings:
-        if str not in placed:
-            print(str)
-            result = process.extractOne(str, bucket_reps, scorer=fuzz.WRatio, score_cutoff=70)
+    adj = {}
+    for u, v in matches:
+        if u not in adj: adj[u] = []
+        if v not in adj: adj[v] = []
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    visited = set()
+    
+    for node in adj:
+        if node not in visited:
+            component = set()
+            stack = [node]
+            visited.add(node)
 
-            if result:
-                _, score, bucket_idx = result
-                # map list index back to bucket key (assuming keys are 1-based and sequential from create_buckets)
-                # create_buckets uses 1-based keys. bucket_reps is 0-indexed.
-                bucket_key = sorted(buckets.keys())[bucket_idx]
-                
-                buckets[bucket_key].add(str)
-                placed.add(str)
-            else:
-                num_buckets += 1
-                buckets[num_buckets] = set([str])
-                placed.add(str)
+            entity = name_to_entity[node]
+            component.add(entity)
+            while stack:
+                curr = stack.pop()
+                for neighbor in adj[curr]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        stack.append(neighbor)
+
+                        entity = name_to_entity[neighbor]
+                        component.add(entity)
+            buckets.append(component)
+
+    rest = set(names) - visited
+    for name in rest:
+        buckets.append(set([name_to_entity[name]]))
 
     return buckets
-
-
-buckets, placed = create_buckets(strings_split)
-print(buckets)
-# pprint(fill_buckets(buckets, strings))
-print(fill_buckets(buckets, placed, strings))
-
-
-# for pair, score in results.items():
-#     str1, str2 = pair
-#     if len(buckets) == 0:
-#         num_buckets += 1
-#         buckets[num_buckets] = [str1]
-
-    # 
-

@@ -29,6 +29,7 @@ def analyze_save(analyzer, text, doc_id, case, language="en", allow_list=[], den
         analyzer.registry.add_recognizer(deny_recognizer)
 
     results = analyzer.analyze(text=text, language=language, allow_list=allow_list)
+    tagged_person = [text[r.start:r.end] for r in results if r.entity_type == "PERSON"]
 
     anonymized_text = AnonymizerEngine().anonymize(text=text,analyzer_results=results).text
     Path(f"logs/{case}/{doc_id}").mkdir(parents=True, exist_ok=True)
@@ -47,4 +48,4 @@ def analyze_save(analyzer, text, doc_id, case, language="en", allow_list=[], den
         f.write(f"deny_list: {deny_list}\n")
     
     write_json(f"logs/{case}/{doc_id}/results_{datetime.now().strftime('%Y%m%d_%H%M%S')}", json_results)
-    return anonymized_text, doc_id + 1
+    return anonymized_text, tagged_person, doc_id + 1
