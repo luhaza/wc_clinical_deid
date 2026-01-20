@@ -12,7 +12,7 @@ import re
 
 class DemographicContext:
     """Manages demographic coherence across anonymized entities"""
-    def __init__(self):
+    def __init__(self, name_groupings: List[set]=None):
         self.mappings: Dict[str, Dict[str, Any]] = {}
         self.faker = Faker()
         self.names = [
@@ -21,10 +21,16 @@ class DemographicContext:
             'Kai', 'Blake', 'Asher', 'Robin', 'Rory', 'Spencer', 'Tatum', 
             'Jessie', 'Jackie', 'Baker', 'Tommie', 'Sammy', 'Jamie', 'Noel'
         ]
+        self.name_group_map = {}
+        if name_groupings:
+            for group in name_groupings:
+                canonical = sorted(group)[0].lower()
+                for variant in group:
+                    self.name_group_map[variant.lower()] = canonical
     
     def get_or_create_identity(self, original_value: str, entity_type: str, **context) -> Dict[str, Any]:
         """Get existing mapping or create new coherent identity"""
-        key = self._get_key(original_value)
+        key = self._get_key(original_value, entity_type)
         if key in self.mappings:
             return self.mappings[key]
         # Create new identity with demographic coherence
@@ -33,8 +39,10 @@ class DemographicContext:
         
         return identity
     
-    def _get_key(self, value: str) -> str:
+    def _get_key(self, value: str, entity_type: str=None) -> str:
         """Generate consistent key for value"""
+        if entity_type == 'PERSON' and value.lower() in self.name_group_map:
+            canonical = self.name_group_map[value.lower()]
         return hashlib.sha256(value.encode()).hexdigest()
     
     
@@ -63,8 +71,8 @@ class DemographicContext:
 
 
 class ContextAwareAnonymizer:
-    def __init__(self):
-        self.context = DemographicContext()
+    def __init__(self, name_groupings: List[set]=None):
+        self.context = DemographicContext(name_groupings)
         self.anonymizer = AnonymizerEngine()
     
     def anonymize(self, text: str, analyzer_results: List, patient_id: str = None) -> str:
