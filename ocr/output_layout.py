@@ -1,103 +1,111 @@
-# import layoutparser as lp
-# import matplotlib.pyplot as plt
-# import pandas as pd
-# import numpy as np
-# import cv2
-# import sys
-# import os
-# import pydicom
-# from PIL import Image
-# import pytesseract
-
-
-
-# output_directory = "insertion_output"
-
-
-# def main():
-#     if len(sys.argv) < 2:
-#         print("check arguments: python output_layout.py <input_file>")
-#         sys.exit(1)
-
-#     input_path = sys.argv[1]
-#     base_name = os.path.splitext(os.path.basename(input_path))[0]
-
-#     os.makedirs(output_directory, exist_ok=True)
-    
-#     ocr_agent = lp.TesseractAgent(languages='eng')
-#     image = cv2.imread(input_path)
-#     plt.imshow(image)
-#     plt.axis("off")
-#     #plt.show()
-#     #sys.exit(0)
-
-#     layout = ocr_agent.detect(image, return_response=False) 
-
-#     # 4. Visualize the results using draw_text
-#     # This will create a new image where the text is drawn at the detected locations
-#     lp.draw_text(image, layout, font_size=12, text_color=(0, 0, 0), with_box_on_text=True)
-
-        
-
-
-# if __name__ == '__main__':
-#     main()
-
-
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import cv2
-import sys
 import os
-import pydicom
-from PIL import Image
-import pytesseract
-from pytesseract import Output
+import sys
+import json
+import re
+from PIL import Image, ImageDraw, ImageFont
+from pdf2image import convert_from_path
 
 
+OUTPUT_DIR = "deid_output"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-output_directory = "insertion_output"
+# for image/pdf conversion
+def insert_from_json(image_path, json_path, output_path):
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
+    tokens = data.get("tokens", [])
+
+    try:
+        img = Image.open(image_path).convert("RGB")
+    except Exception as e:
+        print(f"Error: {image_path}, {e}")
+        return
+
+    draw = ImageDraw.Draw(img)
+
+    # scaling font!!
+    try:
+        font_path = "arial.ttf"  #works w/ any .ttf font I think
+        base_font = ImageFont.truetype(font_path, size=10)
+    except Exception:
+        base_font = ImageFont.load_default()
+
+    for token in tokens:
+        original_text = token.get("text", "")
+        replacement_text = token.get("replacement", original_text)
+
+        if replacement_text == original_text or not replacement_text:
+            continue
+
+        x, y = token.get("left", 0), token.get("top", 0)
+        w, h = token.get("width", 0), token.get("height", 0)
+
+        draw.rectangle([x, y, x + w, y + h], fill="white")
+
+        # calculate font size
+        font_size = max(1, int(h * 1))  # 1:1 w/ box --> change if too big/small!
+        try:
+            font = ImageFont.truetype(font_path, size=font_size)
+        except Exception:
+            font = base_font  # fallback font
+
+
+        bbox = draw.textbbox((0, 0), replacement_text, font=font)
+        text_height = bbox[3] - bbox[1]
+        y_offset = y + (h - text_height) // 2
+
+        draw.text((x, y_offset), replacement_text, font=font, fill="black")
+
+    img.save(output_path)
+    print(f"Saved to: {output_path}")
 
 def main():
-    if len(sys.argv) < 2:
-        print("check arguments: python output_layout.py <input_file>")
-        sys.exit(1)
-
     input_path = sys.argv[1]
+    data_path = sys.argv[2]
     base_name = os.path.splitext(os.path.basename(input_path))[0]
+    extension = os.path.splitext(input_path)[1].lower()
 
-    os.makedirs(output_directory, exist_ok=True)
+    #handing images
+    if extension in [".png", ".jpg", ".jpeg"]:
+        output_file = os.path.join(OUTPUT_DIR, f"{base_name}_deid.png")
+        insert_from_json(input_path, data_path, output_file)
+        return
 
-    img = cv2.imread(input_path)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # handling PDFs
+    if extension == ".pdf":
+        pdf_output_dir = os.path.join(OUTPUT_DIR, base_name)
+        os.makedirs(pdf_output_dir, exist_ok=True)
 
-    d = pytesseract.image_to_data(img, output_type=Output.DICT)
-    #print(d.keys())
+        pages = convert_from_path(input_path, dpi=300)
+        deid_images = []
 
-    n_boxes = len(d['text'])
-    detected_words = d['text']
-    print(detected_words)
-    print_text = ['in']
-    for i in range(n_boxes):
-        if int(d['conf'][i]) > 60 and (detected_words[i] in print_text):
-            (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
-            #img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            img = cv2.rectangle(gray, (x, y), (x + w, y + h), (255, 255, 255), -1)
-            #x_offset = x + (x//2)
-            cv2.putText(gray, detected_words[i], (x, y+20), cv2.FONT_HERSHEY_COMPLEX, 0.9, (0,0,0), 2)
+        for idx, page_img in enumerate(pages, start=1):
+            page_file = os.path.join(pdf_output_dir, f"{base_name}_page{idx}.png")
+            page_img.save(page_file)
 
-    cv2.imshow('img', gray)
-    cv2.waitKey(0)
+            # load corresponding json
+            json_file = os.path.join(data_path, f"{base_name}_page{idx}_ocr.json")
+            if not os.path.isfile(json_file):
+                print(f"No JSON for page {idx}, skipping")
+                continue
 
-    sys.exit(0)
+            output_file = os.path.join(pdf_output_dir, f"{base_name}_page{idx}_deid.png")
+            insert_from_json(page_file, json_file, output_file)
 
-
-
-    
-    
+            # compiling into PDF
+            deid_img = Image.open(output_file).convert("RGB")
+            deid_images.append(deid_img)
 
 
-if __name__ == '__main__':
+        if deid_images:
+            pdf_output_path = os.path.join(pdf_output_dir, f"{base_name}_deid.pdf")
+            first_page, rest_pages = deid_images[0], deid_images[1:]
+            first_page.save(pdf_output_path, save_all=True, append_images=rest_pages)
+            print(f"output PDF saved to {pdf_output_path}")
+
+        print(f"Outputs saved in {pdf_output_dir}")
+        return
+
+if __name__ == "__main__":
     main()
