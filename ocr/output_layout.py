@@ -50,7 +50,7 @@ def insert_from_json(image_path, json_path, output_path):
         if(replacement_text == ("*"*org_len)):
             draw.rectangle([x, y, x + w, y + h], fill="black")
         else:
-            draw.rectangle([x, y, x + w, y + h], fill="pink")
+            draw.rectangle([x, y, x + w, y + h], fill="white")
 
         # calculate font size
         max_width = [x, y, x + w, y + h][2] - [x, y, x + w, y + h][0] 
