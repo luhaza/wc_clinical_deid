@@ -31,17 +31,25 @@ def insert_from_json(image_path, json_path, output_path):
     except Exception:
         base_font = ImageFont.load_default()
 
+    
+    # for redacted text the replacement is a numebr of asteristks equal to original length
     for token in tokens:
-        original_text = token.get("text", "")
-        replacement_text = token.get("replacement", original_text)
+        original_text = token.get("text")
+        replacement_text = token.get("replacement")
 
-        if replacement_text == original_text or not replacement_text:
+        if replacement_text == original_text:
             continue
+
 
         x, y = token.get("left", 0), token.get("top", 0)
         w, h = token.get("width", 0), token.get("height", 0)
 
-        draw.rectangle([x, y, x + w, y + h], fill="white")
+        org_len = len(original_text)
+
+        if(replacement_text == ("*"*org_len)):
+            draw.rectangle([x, y, x + w, y + h], fill="black")
+        else:
+            draw.rectangle([x, y, x + w, y + h], fill="white")
 
         # calculate font size
         font_size = max(1, int(h * 1))  # 1:1 w/ box --> change if too big/small!
