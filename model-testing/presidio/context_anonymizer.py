@@ -42,7 +42,7 @@ class DemographicContext:
     def _get_key(self, value: str, entity_type: str=None) -> str:
         """Generate consistent key for value"""
         if entity_type == 'PERSON' and value.lower() in self.name_group_map:
-            canonical = self.name_group_map[value.lower()]
+            value = self.name_group_map[value.lower()]
         return hashlib.sha256(value.encode()).hexdigest()
     
     
