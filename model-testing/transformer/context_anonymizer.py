@@ -36,10 +36,7 @@ class DemographicContext:
             return self.mappings[key]
         # Create new identity with demographic coherence
         identity = self._create_coherent_identity(original_value, entity_type, **context)
-        self.mappings[key] = identity
-
-        print(identity)
-        
+        self.mappings[key] = identity        
         return identity
     
     def _get_key(self, value: str, entity_type: str=None) -> str:
@@ -77,6 +74,7 @@ class ContextAwareAnonymizer:
     def __init__(self, name_groupings: List[set]=None):
         self.context = DemographicContext(name_groupings)
         self.anonymizer = AnonymizerEngine()
+        self.replacements = {}
     
     def anonymize(self, text: str, analyzer_results: List, patient_id: str = None) -> str:
         """
@@ -150,9 +148,9 @@ class ContextAwareAnonymizer:
                 # Generate fake zipcode
                 replacement = self.context.faker.zipcode()
             
-            elif entity_type == 'ORGANIZATION':
-                # Replace with fake company name
-                replacement = self.context.faker.company()
+            # elif entity_type == 'ORGANIZATION':
+            #     # Replace with fake company name
+            #     replacement = self.context.faker.company()
             
             elif entity_type == 'AGE':
                 # Keep age as-is (filter already preserved ages <89)
@@ -160,12 +158,16 @@ class ContextAwareAnonymizer:
             
             else:
                 # For any unknown types, keep original text
-                replacement = entity_text
+                replacement = len(entity_text)*"*"
             
             # Replace the text at this exact position
             if replacement is not None:
                 result_text = result_text[:result.start] + replacement + result_text[result.end:]
         
+            # print(f"Replaced '{entity_text}' ({entity_type}) with '{replacement}'")
+            self.replacements[entity_text] = replacement
+            # print(self.replacements)
+
         return result_text
     
     def _shift_date(self, date_str: str, shift_days: int) -> str:
