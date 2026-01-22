@@ -26,13 +26,14 @@ def insert_from_json(image_path, json_path, output_path):
 
     # scaling font!!
     try:
-        font_path = "arial.ttf"  #works w/ any .ttf font I think
+        font_path = 'fonts/arial.ttf'
         base_font = ImageFont.truetype(font_path, size=10)
     except Exception:
+        print("font path not found!")
         base_font = ImageFont.load_default()
 
     
-    # for redacted text the replacement is a numebr of asteristks equal to original length
+    # for redacted text the replacement is a number of asteristks equal to original length
     for token in tokens:
         original_text = token.get("text")
         replacement_text = token.get("replacement")
@@ -41,27 +42,43 @@ def insert_from_json(image_path, json_path, output_path):
             continue
 
 
-        x, y = token.get("left", 0), token.get("top", 0)
-        w, h = token.get("width", 0), token.get("height", 0)
+        x, y = token.get("left"), token.get("top")
+        w, h = token.get("width"), token.get("height")
 
         org_len = len(original_text)
 
         if(replacement_text == ("*"*org_len)):
             draw.rectangle([x, y, x + w, y + h], fill="black")
         else:
-            draw.rectangle([x, y, x + w, y + h], fill="white")
+            draw.rectangle([x, y, x + w, y + h], fill="pink")
 
         # calculate font size
-        font_size = max(1, int(h * 1))  # 1:1 w/ box --> change if too big/small!
+        max_width = [x, y, x + w, y + h][2] - [x, y, x + w, y + h][0] 
+        font_size = max(1, int(h * 1.3))  # 1:1 w/ box --> change if too big/small!
         try:
             font = ImageFont.truetype(font_path, size=font_size)
+            while font.getbbox(replacement_text)[2]-font.getbbox(replacement_text)[0]>max_width and font_size>2:
+                font_size -= 1
+                font = ImageFont.truetype(font_path, size=font_size)
+            # print(font.getbbox(replacement_text)[2]-font.getbbox(replacement_text)[0]>max_width)
+            # print(font.getbbox(replacement_text)[2]-font.getbbox(replacement_text)[0], max_width)
+            # print(font_size,replacement_text)
+            bbox = draw.textbbox((0,0), replacement_text, font=font)
+            # print(font.getbbox(replacement_text), [x, y, x + w, y + h])
+            # left, top, right, bottom =  font.getbbox(replacement_text)
+            # width = right-left
+            # height = bottom - top
+            # print(width, height)
         except Exception:
+            print("using base font size")
             font = base_font  # fallback font
 
-
-        bbox = draw.textbbox((0, 0), replacement_text, font=font)
+        font = ImageFont.truetype(font_path, size=font_size)
+        bbox = draw.textbbox((0,0), replacement_text, font=font)
+        # print((bbox[2]-bbox[0])>max_width)
+        # print(font_size)
         text_height = bbox[3] - bbox[1]
-        y_offset = y + (h - text_height) // 2
+        y_offset = y + (h - text_height) // 2 - h*0.15
 
         draw.text((x, y_offset), replacement_text, font=font, fill="black")
 
