@@ -1,4 +1,4 @@
-# Dependencies: Tesseract (on PATH), pytesseract, Pillow, pdf2image, pydicom
+# Dependencies: Tesseract (on PATH), pytesseract, Pillow, pdf2image, pydicom 
 import sys
 import os
 import json
@@ -6,19 +6,21 @@ from PIL import Image
 import pytesseract
 from pdf2image import convert_from_path
 import pydicom
+from pydicom.tag import Tag
 
 OUTPUT_DIR = "ocr_output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 def ocr_image(image, base_name, page_num=None, output_dir=OUTPUT_DIR):
-   #saving both json and text for source file
+    # saving both json and text for source file
     if page_num:
         json_file = os.path.join(output_dir, f"{base_name}_page{page_num}_ocr.json")
         text_file = os.path.join(output_dir, f"{base_name}_page{page_num}.txt")
     else:
         json_file = os.path.join(output_dir, f"{base_name}_ocr.json")
         text_file = os.path.join(output_dir, f"{base_name}.txt")
+
     data = pytesseract.image_to_data(
         image,
         output_type=pytesseract.Output.DICT
@@ -32,7 +34,10 @@ def ocr_image(image, base_name, page_num=None, output_dir=OUTPUT_DIR):
 
     for i in range(n):
         word = data["text"][i].strip()
-        conf = int(data["conf"][i])
+        try:
+            conf = int(data["conf"][i])
+        except ValueError:
+            conf = 0
 
         if not word or conf <= 0:
             continue
@@ -66,6 +71,7 @@ def ocr_image(image, base_name, page_num=None, output_dir=OUTPUT_DIR):
         "tokens": tokens
     }
 
+    os.makedirs(output_dir, exist_ok=True)
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
@@ -74,19 +80,6 @@ def ocr_image(image, base_name, page_num=None, output_dir=OUTPUT_DIR):
         f.write(full_text)
 
     print(f"Saved JSON to {json_file} and text to {text_file}")
-
-
-def save_dicom_metadata(ds, base_name):
-    # dicom metadata to text
-    # does not handel pixel data
-    # not compatible with output_layout atm. 
-    meta_file = os.path.join(OUTPUT_DIR, f"{base_name}_dicom_metadata.txt")
-    with open(meta_file, "w", encoding="utf-8") as f:
-        for elem in ds.iterall():
-            # Only write tags with values
-            if elem.value not in [None, ""]:
-                f.write(f"{elem}\n")
-    print(f"Saved DICOM metadata to {meta_file}")
 
 
 def main():
@@ -98,47 +91,47 @@ def main():
     base_name = os.path.splitext(os.path.basename(input_path))[0]
     extension = os.path.splitext(input_path)[1].lower()
 
-    # handling DICOM
+    #DICOM
     if extension == ".dcm":
-        print("Processing DICOM...")
-        ds = pydicom.dcmread(input_path)
-        save_dicom_metadata(ds, base_name)
+        print("filetype: DICOM")
+        try:
+            ds = pydicom.dcmread(input_path)
+        except Exception as e:
+            print(f"Error: {e}")
+            sys.exit(1)
 
-        if "PixelData" not in ds:
-            print("No pixel data found in DICOM, metadata saved")
-            return
+        # save dicom metadata
+        metadata_text = str(ds)
+        metadata_path = os.path.join(OUTPUT_DIR, f"{base_name}_metadata.txt")
 
-        pixel_array = ds.pixel_array
-        image = (
-            Image.fromarray(pixel_array)
-            if len(pixel_array.shape) == 3
-            else Image.fromarray(pixel_array).convert("L")
-        )
-        ocr_image(image, base_name)
-        return
+        with open(metadata_path, "w", encoding="utf-8") as out:
+            out.write(metadata_text)
 
-    # handling PDF
+        print(f"Metadata saved to {metadata_path}")
+
+    # PDF
     if extension == ".pdf":
-        # Create a subfolder for this PDF (used for output_layout)
         pdf_output_dir = os.path.join(OUTPUT_DIR, base_name)
         os.makedirs(pdf_output_dir, exist_ok=True)
 
         pages = convert_from_path(input_path, dpi=300)
         for idx, page_img in enumerate(pages, start=1):
-            # pass subfolder as output dir
             ocr_image(page_img, base_name, page_num=idx, output_dir=pdf_output_dir)
+
         print(f"Outputs saved in {pdf_output_dir}")
         return
-    # handling single images
+
+
+    img_ext = {".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".gif"}
+    if extension not in img_ext:
+        return
+
     try:
         image = Image.open(input_path).convert("RGB")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error opening image: {e}")
         sys.exit(1)
-
-    ocr_image(image, base_name)
 
 
 if __name__ == "__main__":
     main()
-
