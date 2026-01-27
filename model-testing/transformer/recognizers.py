@@ -55,7 +55,7 @@ class MedicalRecognizers:
         - "Date of Birth: 1-1-85" → captures "1-1-85"
         """
         return PatternRecognizer(
-            supported_entity="DOB",
+            supported_entity="DATE_TIME",
             patterns=[
                 # Lookbehind to capture only the date, not the label
                 Pattern(

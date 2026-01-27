@@ -1,0 +1,34 @@
+UNIVERSITY MEDICAL CTR
+Department: Neurology / Internal Med
+Document Type: ED NOTE + CONSULT + DISCHARGE
+Generated: 2024.03.22 07:14 AM
+Printed by: J.Nguyen (unit clerk) ext 4021
+PATIENT INFORMATION
+Name: Jenniferr K. Lee
+AKA: Jenny Lee/ J. Lee
+DOB: 5-6-94
+Age: 29 y/o
+Sex: F
+Preferred Language: English
+Race/ethnicity (self-reported): Korean-American
+MRN: 00077219
+Acct#: A-77821
+Encounter ID: 44-92-77 1
+Home Address:
+455 San Mateo Ave
+Apt# 3B
+Redwood City, CA 94063
+CURRENT ADDRESS (per patient, moved recently):
+4127 W. Elmst Apt #3B
+Springfeld, IL 62704
+Phone: 312-555-7712
+Alt/cell: (312) 555 77 13
+Email: jlee94 @ yahoo.com
+Emergency contact:
+Marry Smith (spouse) 217.555.0198
+relationship: wife
+Secondary contact:
+Anne McKinly (sister) 773.555.8891
+Primary care provider (outside):
+Dr. S. Patel, MD
+Northside Pulmonology

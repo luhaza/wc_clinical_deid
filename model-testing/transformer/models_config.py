@@ -63,7 +63,7 @@ def config(modelA, modelA_mapping,
             nlp_engine=nlp_engine, 
             context_aware_enhancer=context_enhancer,
             registry=registry, 
-            default_score_threshold=0.3
+            default_score_threshold=0.505
             )
         
         analyzers.append(analyzer)

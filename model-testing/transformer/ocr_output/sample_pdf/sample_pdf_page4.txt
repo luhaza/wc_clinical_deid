@@ -1,0 +1,27 @@
+NEURO: AOx3, CN2-12 intact, no drift, gait slightly unsteady
+ED COURSE / MEDICAL DECISION MAKING
+Given migraine cocktail: fluids + metoclopramide + ketorolac.
+Pt improved significantly after tx.
+EKG: sinus tachy, no ST elevation.
+CXR: negative.
+Troponin: negative.
+Consider PE given travel hx; D-dimer obtained.
+LAB RESULTS
+Specimen ID: L-998211
+Collection date: 2024.03.21 22:10
+Result date: 2024-03-22
+CBC: WNL
+BMP: WNL
+D-dimer: 0.42 (neg)
+hCG: negative
+IMAGING
+CT Head w/o contrast
+Study date: 2024-02-17 (outside prior) — stable
+Today's study date: 03/21/24
+IMPRESSION: no acute intracranial hemorrhage. chronic microvascular changes.
+NEUROLOGY CONSULT NOTE
+Consult requested by ED provider at 23:40.
+Consultant: Rebecca Wong MD
+Assistant: J. Nguyen PA-C
+Assessment:
+Chronic migraine w/ medication nonadherence.
