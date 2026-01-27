@@ -1,0 +1,225 @@
+======================
+North Claudia
+======================
+Department:  Neurology / Internal Med
+Document Type:  ED NOTE + CONSULT + DISCHARGE
+Generated: 01-02-76  07:14 AM
+Printed by: August (unit clerk)   ext 4021
+
+----------------------------------------------------------------------
+PATIENT INFORMATION
+----------------------------------------------------------------------
+Name:   Micah   K.  Lee
+AKA:    Micah / Micah
+DOB:    04-09-95
+Age:    29 y/o
+Sex:    F
+Preferred Language: English
+Race/ethnicity (self-reported):  Korean-American
+
+MRN:    91498330
+Acct#:  *******
+Encounter ID: *********
+
+Home Address:
+  North Brandonside
+  Apt#  3B
+  Roblesland  29939
+
+CURRENT ADDRESS (per patient, moved recently):
+  Browntown   Apt  #3B
+  Copelandtown  794.686.1330
+
+Phone:  969.660.2663
+Alt/cell: 294.735.4247
+Email:  ****** @ *********
+Emergency contact:
+  Micah th (spouse)  497.574.4314
+  relationship: wife
+Secondary contact:
+  QuinnKinly (sister)  249.411.1335
+
+Primary care provider (outside):
+  Dr.  S.  Patel, MD
+  New James Pulmonology
+  Fax: 808.363.6427
+
+----------------------------------------------------------------------
+CHIEF COMPLAINT
+----------------------------------------------------------------------
+"migraine flare" + dizziness + chest tightness intermittently
+
+----------------------------------------------------------------------
+HISTORY OF PRESENT ILLNESS
+----------------------------------------------------------------------
+Pt is a 29 yo F presenting on 02/22/2025 with headache for 2 days.
+Pain begins behind R eye, throbbing, +photophobia.
+She states she ran out of topiramate "a few wks ago" due to insurance issues.
+Reports dizziness at work yesterday while lifting boxes.
+
+She works at ********************** (warehouse shift). Reports high stress.
+Denies syncope. No focal weakness or speech changes.
+One episode N/V this AM (02-22-25).
+
+Pt also notes intermittent chest pressure for ~2 weeks, worse w/ exertion.
+She denies palpitations. No LE swelling. No known hx DVT/PE.
+
+She notes she lived in CA until 2017 and previously received care at:
+    Cheyennetown Neurology Center
+    Emilytown, Port Joseside
+(Old records list this address; patient unsure if still correct.)
+
+Pt traveled internationally recently (reports "Spain + Netherlands") for vacation,
+returned approx 01/31/25. Also mentions family background includes Czech ancestry
+on father’s side. (Father immigrated from Poland in early 09-18-03.)
+
+----------------------------------------------------------------------
+REVIEW OF SYSTEMS
+----------------------------------------------------------------------
++ headache
++ nausea/vomiting
++ photophobia
+- fever/chills
+- cough
+- SOB at rest
+- dysuria
+- rash
+
+----------------------------------------------------------------------
+PAST MEDICAL HISTORY
+----------------------------------------------------------------------
+Migraine disorder
+Asthma (mild intermittent)
+HTN (borderline)
+Hyperlipidemia
+Anxiety
+
+Prior hospitalizations: none known
+Surgical hx: appendectomy (12-03-36)
+
+ALLERGIES: NKDA per pt
+MEDS (per pt; inconsistent compliance):
+ - topiramate 25mg BID (ran out)
+ - albuterol inhaler PRN
+ - lisinopril 10mg daily
+ - atorvastatin 20mg qhs
+
+----------------------------------------------------------------------
+SOCIAL HISTORY
+----------------------------------------------------------------------
+Lives w/ spouse. Denies tobacco. Occ ETOH.
+No illicit substances.
+Employment: *********************************)
+Insurance: ********* West Meganchester (pt unsure of policy #)
+
+Pt prefers morning appts; works nights occasionally.
+
+----------------------------------------------------------------------
+FAMILY HISTORY
+----------------------------------------------------------------------
+Mother: Dylan (contact in chart: 249.948.2186)  [note: pt unsure if current]
+Father: deceased, hx "stroke" per pt
+Sibling: sister QuinnKinly (see contact above)
+
+----------------------------------------------------------------------
+PHYSICAL EXAM
+----------------------------------------------------------------------
+Vitals:
+T 98.2   HR 102   BP 151/92  RR 18  SpO2 99% RA
+GEN: alert, anxious
+HEENT: PERRL, mild photophobia
+CV: tachycardic, reg rhythm
+RESP: CTA bilat
+NEURO: AOx3, CN2-12 intact, no drift, gait slightly unsteady
+
+----------------------------------------------------------------------
+ED COURSE / MEDICAL DECISION MAKING
+----------------------------------------------------------------------
+Given migraine cocktail: fluids + metoclopramide + ketorolac.
+Pt improved significantly after tx.
+
+EKG: sinus tachy, no ST elevation.
+CXR: negative.
+Troponin: negative.
+
+Consider PE given travel hx; D-dimer obtained.
+
+----------------------------------------------------------------------
+LAB RESULTS
+----------------------------------------------------------------------
+Specimen ID: ********
+Collection date: 01-15-85  22:10
+Result date:     2025-02-23
+
+CBC: WNL
+BMP: WNL
+D-dimer: 0.42 (neg)
+hCG: negative
+
+----------------------------------------------------------------------
+IMAGING
+----------------------------------------------------------------------
+CT Head w/o contrast
+Study date: 2025-01-20  (outside prior)  — stable
+Today's study date: 02/22/25
+IMPRESSION: no acute intracranial hemorrhage. chronic microvascular changes.
+
+----------------------------------------------------------------------
+NEUROLOGY CONSULT NOTE
+----------------------------------------------------------------------
+Consult requested by ED provider at 23:40.
+
+Consultant: Jordan MD
+Assistant: August
+
+Assessment:
+Chronic migraine w/ medication nonadherence.
+No red flags. Normal neuro exam.
+
+Plan:
+1. Restart topiramate 25mg BID; increase to 50mg BID in 7 days if tolerated.
+2. Add sumatriptan 50mg PRN for severe headaches (max 2 doses/24h).
+3. Encourage hydration, sleep hygiene.
+4. Follow up in clinic.
+
+Follow-up arranged:
+East Craigview / Neurology clinic
+Call 779.604.5032 for scheduling
+
+Pt requests FMLA paperwork; advise PCP.
+
+----------------------------------------------------------------------
+DISCHARGE SUMMARY
+----------------------------------------------------------------------
+Discharge date: 02-23-25
+Disposition: home
+
+DIAGNOSES:
+- Migraine exacerbation
+- Anxiety
+- Chest tightness, likely non-cardiac
+
+FOLLOW UP:
+PCP: Dr. S. Patel (New James Pulmonology listed in chart; verify PCP)
+Neurology in 4-6 weeks
+
+DISCHARGE CONTACT INFO:
+Return precautions given. Patient understands.
+
+Signed:
+Tommie   (electronically signed)
+Faxed summary to: 330.272.3494
+----------------------------------------------------------------------
+NOTES / ADDENDUM
+----------------------------------------------------------------------
+Pt requested results be emailed due to difficulty accessing portal:
+****** @ *********
+
+Spouse requested call for updates:
+213.863.3236
+
+Case mgr note:
+Pt has outstanding balance; referred to billing office.
+----------------------------------------------------------------------
+END OF DOCUMENT
+----------------------------------------------------------------------

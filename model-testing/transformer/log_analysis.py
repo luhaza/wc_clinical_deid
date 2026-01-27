@@ -7,25 +7,28 @@ from context_anonymizer import ContextAwareAnonymizer
 from group_entities import group_names
 from clinical_filter import ClinicalDataFilter
 
-def results_to_json(text, results, window=40):
+def results_to_json(text, results, replacements={}, window=40):
     rows = []
+    print(replacements)
     for r in results:
+        original_text = text[r.start:r.end]
+        # print(original_text, replacements[original_text])
         rows.append({
             "entity_type": r.entity_type,
             "start": r.start,
             "end": r.end,
             "score": float(r.score),
-            "text": text[r.start:r.end],
+            "text": original_text,
             "left_context": text[max(0, r.start-window):r.start],
             "right_context": text[r.end:r.end+window],
-            "replacement": text[r.start:r.end]  # Placeholder; actual replacement can be filled in later
+            "replacement": replacements[original_text] if len(replacements) > 0 and original_text in replacements else ""
         })
     return rows
 
 def write_json(path, rows):
     with open(path, "a", encoding="utf-8") as f:
-        for row in rows:
-            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        # for row in rows:
+        f.write(json.dumps(rows, ensure_ascii=False) + "\n")
 
 def first_pass(analyzer, text, doc_id, case, language="en", allow_list=[], deny_list=[], window=40):
     if len(deny_list) > 0:
@@ -76,11 +79,11 @@ def second_pass(analyzer, text, doc_id, case, language="en", allow_list=[], deny
 
     anonymized_text = anonymizer.anonymize(text=text,analyzer_results=results)
 
-    print(anonymizer.replacements)
+    replacements_dict = anonymizer.replacements
 
     Path(f"logs/{case}/{doc_id}").mkdir(parents=True, exist_ok=True)
 
-    json_results = results_to_json(anonymized_text, results, window=window)
+    json_results = results_to_json(text, results, replacements_dict, window=window)
     
     # if doc_id == 1:
     #     with open(f"logs/{case}/original_text.txt", "w", encoding="utf-8") as f:
