@@ -228,10 +228,23 @@ class ClinicalDataFilter:
             if result.entity_type == "PERSON":
                 detected_text = text[result.start:result.end]
                 
-                # Find where the name actually ends (before newline or "DOB")
-                clean_match = re.match(r'^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', detected_text)
+                # Regex Explanation:
+                # ^                  Start of string
+                # [A-Z]              Must start with capital
+                # [a-zA-Z\.]*       Can contain letters and dots (for initials like 'K.')
+                # (?: ... )*         Optional subgroups (subsequent parts of name)
+                # \s+                Separated by whitespace
+                # [A-Z][a-zA-Z\.]*  Next word must also look like a name part
+                
+                name_pattern = r'^([A-Z][a-zA-Z\.]*(?:\s+[A-Z][a-zA-Z\.]*)*)'
+                clean_match = re.match(name_pattern, detected_text)
+                
                 if clean_match:
                     clean_name = clean_match.group(1)
+                    # Helper: Don't accidentally capture trailing punctuation if it wasn't part of an initial
+                    # e.g., "Smith," -> regex might match "Smith" properly if comma not in []
+                    # but if we had [.,] it would match. Current [a-zA-Z\.] includes dots but not commas.
+                    
                     # Create new result with corrected end position
                     new_result = RecognizerResult(
                         entity_type="PERSON",
