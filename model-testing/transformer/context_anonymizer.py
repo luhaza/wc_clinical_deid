@@ -158,7 +158,7 @@ class ContextAwareAnonymizer:
             
             else:
                 # For any unknown types, keep original text
-                replacement = len(entity_text)*"*"
+                replacement = "*"
             
             # Replace the text at this exact position
             if replacement is not None:
