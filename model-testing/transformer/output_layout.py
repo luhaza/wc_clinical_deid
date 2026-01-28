@@ -201,7 +201,7 @@ def insert_from_json(image_path, json_path, output_path):
             continue
 
         draw.rectangle([x, y, x + w, y + h], fill="white")
-        font_size = max(1, int(h * 1.3))
+        font_size = max(15, int(h * 1.1))
         font = base_font
 
         try:
