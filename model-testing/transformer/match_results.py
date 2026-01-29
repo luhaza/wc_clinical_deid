@@ -85,6 +85,7 @@ def link_json(output_dir, input_json_path):
     # with open(f"{output_dir}/replacements.json", "w", encoding="utf-8") as f:
     #     json.dump(all_words, f, ensure_ascii=False, indent=2)
 
-# output = "ocr_output/sample_pdf"
-# input_ = "logs/sample/4/results_20260122_125308"           
-# link_json(output, input_)
+# if __name__ == "__main__":
+#     output = "ocr_output/sample_pdf"
+#     input_ = "logs/sample/4/results_20260122_125308"           
+#     link_json(output, input_)
