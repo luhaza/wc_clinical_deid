@@ -1,0 +1,49 @@
+# Streamlit deployment requirements
+# Extends env.yml dependencies for web deployment
+
+streamlit>=1.30.0
+
+# Core dependencies (from env.yml, pip installable versions)
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+pydantic
+regex
+dateparser
+
+# OCR
+pillow
+pytesseract
+pdfplumber
+pdfminer.six
+pypdf
+opencv-python
+camelot-py[cv]
+pymupdf
+
+# DICOM
+pydicom
+
+# NLP
+spacy
+transformers
+datasets
+evaluate
+sentencepiece
+seqeval
+
+# PHI / de-identification tools
+presidio-analyzer
+presidio-anonymizer
+philter-ucsf
+pydeid
+scispacy
+medspacy
+rapidfuzz
+
+# Note: Tesseract must be installed separately at system level
+# macOS: brew install tesseract
+# Ubuntu: apt-get install tesseract-ocr
+# Also requires: brew install poppler ghostscript (macOS)
