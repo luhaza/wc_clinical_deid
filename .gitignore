@@ -1,28 +1,60 @@
+# Python
 __pycache__/
-model-testing/transformer/faker_synth_data_eval.ipynb
-.vscode
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
-model-testing/transformer/logs
+Thumbs.db
 
-# Streamlit
-.streamlit/secrets.toml
-
-# Temporary files from web app
-logs/
-ocr_output/
-deid_output/
-*.tmp
-temp_*
-
-# Model cache
-.cache/
-transformers_cache/
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
 
 # Environment
 .env
 .env.local
+.venv/
+venv/
+ENV/
+env/
 
-.gitignore
+# Model cache
+.cache/
+transformers_cache/
+models/
 
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/cache/
+
+# Output and logging directories
+logs/
+model-testing/transformer/logs/
+model-testing/transformer/ocr_output/
+model-testing/transformer/deid_output/
+ocr/ocr_output/
+ocr/json_insertion_output/
+model-testing/presidio/outputs/
+
+# Temporary files
+*.tmp
+temp_*
+tmp*/
+
+# Documentation files (generated)
 DEPLOYMENT_SUMMARY.txt
 FEATURE_UPDATE.md
+DEPLOYMENT.md
