@@ -3,3 +3,26 @@ model-testing/transformer/faker_synth_data_eval.ipynb
 .vscode
 .DS_Store
 model-testing/transformer/logs
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Temporary files from web app
+logs/
+ocr_output/
+deid_output/
+*.tmp
+temp_*
+
+# Model cache
+.cache/
+transformers_cache/
+
+# Environment
+.env
+.env.local
+
+.gitignore
+
+DEPLOYMENT_SUMMARY.txt
+FEATURE_UPDATE.md
