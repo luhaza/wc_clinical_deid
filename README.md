@@ -56,10 +56,8 @@ conda deactivate
   - `context_anonymizer.py` - Context-aware replacement logic
   - `clinical_filter.py` - Medical false positive filtering
 - `ocr/` - OCR processing for PDFs/images/DICOM
-- `.github/copilot-instructions.md` - AI agent development guide
 
 ## Documentation
 
 - **Deployment Guide**: [DEPLOYMENT.md](DEPLOYMENT.md)
-- **AI Agent Instructions**: [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - **Pipeline Workflow**: See `model-testing/transformer/pipeline.ipynb`
