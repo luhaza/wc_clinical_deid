@@ -152,10 +152,10 @@ if st.session_state.stage == 'upload':
             st.rerun()
 
 elif st.session_state.stage == 'ocr':
-    st.header("Step 2: OCR Processing")
-    st.markdown("Extracting text from your document using Tesseract OCR...")
+    st.header("Step 2: Processing")
+    # st.markdown("Extracting text from your document using Tesseract OCR...")
     
-    with st.spinner("Running OCR... This may take a moment."):
+    with st.spinner("Loading... this may take a moment."):
         try:
             # Run OCR
             base_name = os.path.splitext(os.path.basename(st.session_state.uploaded_file_path))[0]
@@ -332,7 +332,7 @@ elif st.session_state.stage == 'review':
             "One entity per line",
             height=150,
             key="allow_list",
-            placeholder="07:14 AM\n29 y/o\nyesterday"
+            # placeholder="07:14 AM\n29 y/o\nyesterday"
         )
         
         st.markdown("**Deny List** (false negatives)")
@@ -341,7 +341,7 @@ elif st.session_state.stage == 'review':
             "One entity per line",
             height=150,
             key="deny_list",
-            placeholder="Dr. Smith\n555-1234\njlee94"
+            # placeholder="Dr. Smith\n555-1234\njlee94"
         )
     
     if st.button("Run Second Pass with Corrections", type="primary"):
@@ -400,12 +400,6 @@ elif st.session_state.stage == 'second_pass':
                         ocr_base_path = f"model-testing/transformer/ocr_output/{st.session_state.base_name}"
                         
                         if os.path.exists(ocr_base_path):
-                            st.info(f"Linking results: {results_path} to OCR: {ocr_base_path}")
-                            
-                            # Check what JSON files exist in OCR directory
-                            ocr_files = [f for f in os.listdir(ocr_base_path) if f.endswith('_ocr.json')]
-                            st.info(f"Found OCR JSON files: {ocr_files}")
-                            
                             link_json(ocr_base_path, results_path)
                             st.success("✓ Results linked to OCR data")
                     
@@ -415,18 +409,8 @@ elif st.session_state.stage == 'second_pass':
                         
                         # Ensure ocr_base_path exists and has trailing slash
                         if os.path.exists(ocr_base_path):
-                            # Verify OCR JSON files have replacement data
-                            sample_json = os.path.join(ocr_base_path, f"{st.session_state.base_name}_page1_ocr.json")
-                            if os.path.exists(sample_json):
-                                with open(sample_json, 'r') as f:
-                                    sample_data = json.load(f)
-                                    tokens_with_replacements = [t for t in sample_data.get('tokens', []) if t.get('replacement')]
-                                    st.info(f"Sample JSON has {len(tokens_with_replacements)} tokens with replacements out of {len(sample_data.get('tokens', []))} total")
-                            
                             # Path must be relative to model-testing/transformer/ since that's the cwd
                             ocr_path_relative = f"ocr_output/{st.session_state.base_name}/"
-                            
-                            st.info(f"Running: python output_layout.py {st.session_state.uploaded_file_path} {ocr_path_relative}")
                             
                             output_result = subprocess.run(
                                 ['python', output_script, st.session_state.uploaded_file_path, ocr_path_relative],
@@ -574,5 +558,5 @@ st.sidebar.markdown("""
 ### About
 Clinical De-identification Pipeline  
 Version 1.0  
-[Documentation](.github/copilot-instructions.md)
+[Documentation](https://github.com/luhaza/wc_clinical_deid)
 """)
